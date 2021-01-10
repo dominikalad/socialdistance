@@ -93,6 +93,11 @@ exports.uploadImage = (res, req) => {
     let imageToBeUploaded = {};
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        console.log('halko?')
+        if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
+            return res.status(400).json({ error: 'Wrong file type' });
+        }
+
         const imageExtension = filename.split('.').pop();
         imageFileName = `${Math.round(Math.random()*1000000000000)}.${imageExtension}`;
         const filepath = path.join(os.tmpdir(), imageFileName);
