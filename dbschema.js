@@ -27,8 +27,18 @@ let db = {
             body: 'Awesome!',
             createdAt: "2021-01-09T03:34:05.601Z",
         }
+    ],
+    notifications: [
+        {
+            recipient: 'user',
+            sender: 'Broseph',
+            read: 'true | false',
+            screamId: 'HGhjfgHjhbVFgjHGFHGhHGH',
+            type: 'like | comment',
+            createdAt: "2021-01-09T03:34:05.601Z"
+        }
     ]
-}
+};
 
 const userDetails = {
     credentials: {
@@ -51,4 +61,4 @@ const userDetails = {
             screamId: 'nsbfsknDFcGkHsDFGjbckjsds',
         }
     ]
-}
+};
