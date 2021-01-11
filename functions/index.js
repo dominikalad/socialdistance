@@ -19,7 +19,9 @@ const {
     login, 
     uploadImage, 
     addUserDetails, 
-    getAuthenticatedUser 
+    getAuthenticatedUser,
+    getUserDetails,
+    markNotificationsRead
 } = require('./handlers/users');
 
 const FBAuth = require('./util/fbAuth');
@@ -37,6 +39,8 @@ app.delete('/scream/:screamId', FBAuth, deleteScream);
 app.post('/user/image', FBAuth, uploadImage);
 app.post('/user', FBAuth, addUserDetails);
 app.get('/user', FBAuth, getAuthenticatedUser);
+app.get('/user/:handle', getUserDetails);
+app.post('/notifications', FBAuth, markNotificationsRead);
 
 // Auth routes
 app.post('/signup', signup);
