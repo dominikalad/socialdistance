@@ -19,6 +19,14 @@ let db = {
             petCount: 5,
             commentCount: 2
         }
+    ],
+    comments: [
+        {
+            userHandle: "user",
+            screamId: 'ghJHGfhJBvghN',
+            body: 'Awesome!',
+            createdAt: "2021-01-09T03:34:05.601Z",
+        }
     ]
 }
 
