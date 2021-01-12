@@ -56,7 +56,7 @@ exports.signup = (req, res) => {
             if (err.code === 'auth/email-already-in-use') {
                 return res.status(400).json({ email: 'Email is already in use' });
             } else {
-                return res.status(500).json({ error: err.code });
+                return res.status(500).json({ general: 'Something went wrong, try again!' });
             }
         });
 }
@@ -76,9 +76,7 @@ exports.login = (req, res) => {
         .then(token => { return res.json({ token }) })
         .catch(err => {
             console.error(err);
-            if (err.code === 'auth/wrong-password') {
-                return res.status(403).json({ general: 'Wrong credentials' });
-            } else return res.status(500).json({ error: err.code });
+            return res.status(403).json({ general: 'Wrong credentials' });
         })
 }
 
@@ -193,7 +191,6 @@ exports.uploadImage = (res, req) => {
     let imageToBeUploaded = {};
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-        console.log('halko?')
         if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
             return res.status(400).json({ error: 'Wrong file type' });
         }
