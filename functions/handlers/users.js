@@ -223,7 +223,7 @@ exports.uploadImage = (res, req) => {
         })
         .catch(err => {
             console.error(err);
-            return res.stuatus(500).json({ error: err.code });
+            return res.status(500).json({ error: err.code });
         })
     })
 
