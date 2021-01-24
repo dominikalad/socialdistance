@@ -93,19 +93,17 @@ exports.commentOnScream = (req, res) => {
   db.doc(`/screams/${req.params.screamId}`)
     .get()
     .then((doc) => {
-      screamData = doc.data();
-      screamData.screamId = doc.id;
       if (!doc.exists) {
         return res.status(404).json({ error: "Scream not found" });
       }
-      screamData.commentCount++;
+      newComment.commentCount = doc.data().commentCount++;
       return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
     })
     .then(() => {
       return db.collection("comments").add(newComment);
     })
     .then(() => {
-      return res.json(screamData);
+      return res.json(newComment);
     })
     .catch((err) => {
       console.error(err);
