@@ -109,26 +109,41 @@ exports.commentOnScream = (req, res) => {
 };
 
 exports.likeScream = (req, res) => {
+  let screamData = {};
+
   const likeDocument = db
     .collection("likes")
     .where("userHandle", "==", req.user.handle)
     .where("screamId", "==", req.params.screamId)
     .limit(1);
 
-  const screamDocument = db.doc(`/screams/${req.params.screamId}`);
+  const commentsDocument = db
+    .collection("comments")
+    .orderBy("createdAt", "desc")
+    .where("screamId", "==", req.params.screamId);
 
-  let screamData = {};
+  const pushComments = (data) => {
+    screamData.comments = [];
+    data.forEach((doc) => {
+      screamData.comments.push(doc.data());
+    });
+    return screamData;
+  };
+
+  const screamDocument = db.doc(`/screams/${req.params.screamId}`);
 
   screamDocument
     .get()
     .then((doc) => {
-      if (doc.exists) {
-        screamData = doc.data();
-        screamData.screamId = doc.id;
-        return likeDocument.get();
-      } else {
-        return res.status(404).json({ error: "Scream not found" });
-      }
+      screamData = doc.data();
+      screamData.screamId = doc.id;
+      return commentsDocument.get();
+    })
+    .then((data) => {
+      return pushComments(data);
+    })
+    .then(() => {
+      return likeDocument.get();
     })
     .then((data) => {
       if (data.empty) {
@@ -162,20 +177,34 @@ exports.unlikeScream = (req, res) => {
     .where("screamId", "==", req.params.screamId)
     .limit(1);
 
+  const commentsDocument = db
+    .collection("comments")
+    .orderBy("createdAt", "desc")
+    .where("screamId", "==", req.params.screamId);
+
   const screamDocument = db.doc(`/screams/${req.params.screamId}`);
 
   let screamData;
 
+  const pushComments = (data) => {
+    screamData.comments = [];
+    data.forEach((doc) => {
+      screamData.comments.push(doc.data());
+    });
+    return screamData;
+  };
   screamDocument
     .get()
     .then((doc) => {
-      if (doc.exists) {
-        screamData = doc.data();
-        screamData.screamId = doc.id;
-        return likeDocument.get();
-      } else {
-        return res.status(404).json({ error: "Scream not found" });
-      }
+      screamData = doc.data();
+      screamData.screamId = doc.id;
+      return commentsDocument.get();
+    })
+    .then((data) => {
+      return pushComments(data);
+    })
+    .then(() => {
+      return likeDocument.get();
     })
     .then((data) => {
       if (data.empty) {
