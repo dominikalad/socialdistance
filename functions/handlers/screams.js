@@ -96,8 +96,9 @@ exports.commentOnScream = (req, res) => {
       if (!doc.exists) {
         return res.status(404).json({ error: "Scream not found" });
       }
-      newComment.commentCount = doc.data().commentCount++;
-      return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
+      doc.ref.update({ commentCount: doc.data().commentCount + 1 });
+      newComment.commentCount = doc.data().commentCount + 1;
+      return;
     })
     .then(() => {
       return db.collection("comments").add(newComment);

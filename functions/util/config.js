@@ -1,5 +1,5 @@
 module.exports = {
-    apiKey: "AIzaSyDuFYOSvz6hsFv1CHWAmo5QCRF904T302M",
+    apiKey: "",
     authDomain: "socialdistance-78857.firebaseapp.com",
     databaseURL: "https://socialdistance-78857-default-rtdb.firebaseio.com",
     projectId: "socialdistance-78857",
